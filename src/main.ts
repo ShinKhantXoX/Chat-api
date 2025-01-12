@@ -15,7 +15,6 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
 
   await app.listen(3000); // Listen on port 3500 for WebSocket server
-  console.log('WebSocket server running on port 3500');
 }
 
 bootstrap();
