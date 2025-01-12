@@ -1,7 +1,8 @@
 // src/chat/chat.gateway.ts
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import { MessageBody, WebSocketGateway, SubscribeMessage, OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UserService } from 'src/user/user.service';
 
 @WebSocketGateway(3500,{ cors: { origin: '*' } })
@@ -34,9 +35,12 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewa
     }
   }
 
+  // @UseGuards(JwtAuthGuard)
   @SubscribeMessage('newMessage')
   async handleMessage(@MessageBody() data: { message: string; userId: string }, client: Socket) {
     // Broadcast message to all connected clients
+    console.log(data.message);
+    
     this.server.emit('message', { message: data.message, userId: data.userId });
   }
 }

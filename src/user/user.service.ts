@@ -25,6 +25,11 @@ export class UserService {
     return this.userRepository.findOne({ where: { id } });  // Correct usage of findOne
   }
 
+  // Find user by username
+  async findOneByUsername(username: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { username } });
+  }
+
   // Set the user as online or offline
   async setUserOnlineStatus(userId: number, isOnline: boolean): Promise<void> {
     await this.userRepository.update(userId, { isOnline });

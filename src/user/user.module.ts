@@ -3,12 +3,13 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { UserService } from './user.service';
-import { UserController } from './user.controller'; // If you have a controller
+import { UserController } from './user.controller';
+import { AuthModule } from '../auth/auth.module';  // Import AuthModule to access JwtService
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],  // Register the User entity here
-  providers: [UserService],
-  controllers: [UserController],  // If you have a controller
-  exports: [UserService],  // Export UserService if you need it in other modules
+  imports: [TypeOrmModule.forFeature([User]), AuthModule],  // Import AuthModule here
+  providers: [UserService],  // Only provide UserService here
+  controllers: [UserController],
+  exports: [UserService],
 })
 export class UserModule {}
